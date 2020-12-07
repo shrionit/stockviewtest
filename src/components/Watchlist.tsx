@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
-import { AutoComplete, Icon, InputGroup, Panel, Row, Col, IconButton, FlexboxGrid, List } from 'rsuite';
+import { AutoComplete, Icon, InputGroup, Panel, Row, Col, IconButton, FlexboxGrid, List, Loader } from 'rsuite';
 import api from '../api';
 import firebase, { auth } from '../firebase';
 
@@ -168,39 +168,46 @@ export default class Watchlist extends Component<any, any> {
                         <SearchBar searchData={this.state.searchData} currentWatchList={this.state.currentUserWatchList} renderRaise={this.renderRaise} removeWatchlist={this.removeFromWatchList} addWatchlist={this.addToWatchList} />
                     </Panel>
                     <Panel bodyFill>
-                        <List hover>
-                            {this.state.currentUserWatchList.map((item, index) => (
-                                <List.Item key={item.id} index={index}>
-                                    <FlexboxGrid justify="space-between">
-                                        {/*base info*/}
-                                        <FlexboxGrid.Item
-                                            colspan={6}
-                                            style={{
-                                                ...styleCenter,
-                                                flexDirection: 'column',
-                                                alignItems: 'flex-start',
-                                                overflow: 'hidden'
-                                            }}
-                                        >
-                                            <div style={titleStyle}>{item.label}</div>
-                                        </FlexboxGrid.Item>
-                                        {/*peak data*/}
-                                        <FlexboxGrid.Item colspan={6} style={styleCenter}>
-                                            <div style={{ textAlign: 'right' }}>
-                                                <div style={slimText}>Top Value</div>
-                                                <div style={dataStyle}>{item.closePrice}</div>
-                                            </div>
-                                            {this.renderRaise(item.rate)}
-                                        </FlexboxGrid.Item>
-                                        <FlexboxGrid.Item colspan={6} style={styleCenter}>
-                                            <div style={{ textAlign: 'right' }}>
-                                                <IconButton icon={<Icon icon="close-circle" onClick={() => this.removeFromWatchList(item.id)} />} />
-                                            </div>
-                                        </FlexboxGrid.Item>
-                                    </FlexboxGrid>
-                                </List.Item>
-                            ))}
-                        </List>
+                        {
+                            this.state.currentUserWatchList.length == 0
+                                ? (<Loader content="loading..." vertical center />)
+                                : (
+                                    <List hover>
+                                        {this.state.currentUserWatchList.map((item, index) => (
+                                            <List.Item key={item.id} index={index}>
+                                                <FlexboxGrid justify="space-between">
+                                                    {/*base info*/}
+                                                    <FlexboxGrid.Item
+                                                        colspan={6}
+                                                        style={{
+                                                            ...styleCenter,
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-start',
+                                                            overflow: 'hidden'
+                                                        }}
+                                                    >
+                                                        <div style={titleStyle}>{item.label}</div>
+                                                    </FlexboxGrid.Item>
+                                                    {/*peak data*/}
+                                                    <FlexboxGrid.Item colspan={6} style={styleCenter}>
+                                                        <div style={{ textAlign: 'right' }}>
+                                                            <div style={slimText}>Top Value</div>
+                                                            <div style={dataStyle}>{item.closePrice}</div>
+                                                        </div>
+                                                        {this.renderRaise(item.rate)}
+                                                    </FlexboxGrid.Item>
+                                                    <FlexboxGrid.Item colspan={6} style={styleCenter}>
+                                                        <div style={{ textAlign: 'right' }}>
+                                                            <IconButton icon={<Icon icon="close-circle" onClick={() => this.removeFromWatchList(item.id)} />} />
+                                                        </div>
+                                                    </FlexboxGrid.Item>
+                                                </FlexboxGrid>
+                                            </List.Item>
+                                        ))}
+                                    </List>
+                                )
+
+                        }
                     </Panel>
                 </Panel>
             );

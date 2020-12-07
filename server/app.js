@@ -42,7 +42,7 @@ module.exports.handleSignIn = function (user) {
 }
 
 module.exports.viewWatchlist = function (user) {
-  if (user) {    
+  if (user) {
     return db.collection('stockhunter').doc(user.uid).get();
   } else {
     return null;

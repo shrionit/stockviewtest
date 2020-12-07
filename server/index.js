@@ -16,6 +16,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+
 app.use('/user', user);
 app.use('/stock', stock);
 app.use('/watchlist', watchlist);

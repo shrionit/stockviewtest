@@ -33,7 +33,7 @@ const SignInModal = ({ close, show, login }) => {
         To Continue with google <br /><IconButton className="signinBtn" onClick={() => { close(); login(); }} icon={<Icon icon="google" />} color="blue" placement="left">Sign In</IconButton>
         <Button onClick={close} appearance="subtle">
           Cancel
-            </Button>
+        </Button>
       </Modal.Body>
     </Modal>
   );
